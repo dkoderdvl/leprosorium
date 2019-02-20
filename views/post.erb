@@ -4,7 +4,7 @@
   <h2>Post: <%= "#{hh_post[ 'id' ]}"%></h2>
   <div class="shadow p-3 mb-5 bg-white rounded">
     <p><%= "#{hh_post[ 'Content' ]}" %></p>
-    <p class="text-secondary"><%= "id: #{hh_post[ 'id' ]} | Created date: #{hh_post[ 'Created_date' ]}" %></p>
+    <p class="text-secondary"><span style="font-size: 75%"><%= "id: #{hh_post[ 'id' ]} | Created date: #{hh_post[ 'Created_date' ]}" %></span></p>
   </div>  
 
   <br>
@@ -21,7 +21,7 @@
     <% @results_comments.each do |hh_comment| %>
       <div class="shadow p-3 mb-5 bg-white rounded">
         <p><%= "#{hh_comment[ 'Comment' ]}" %></p>
-        <p class="text-secondary"><%= "id: #{hh_comment[ 'id' ]} | Created date: #{hh_comment[ 'Created_date' ]}" %></p>
+        <p class="text-secondary"><span style="font-size: 75%"><%= "id: #{hh_comment[ 'id' ]} | Created date: #{hh_comment[ 'Created_date' ]}" %></span></p>
       </div>  
     <% end %>
   <% end %>
