@@ -51,12 +51,10 @@ post '/new' do
   
 end
 
-get '/post/*' do
-  @id_post = request.path[6..request.path.length].to_i
- 
-  @results = @db.execute 'SELECT * FROM Posts WHERE id = ? ORDER BY Created_date DESC', [@id_post]
- 
+get '/post/:post_id' do
+  @post_id = params[:post_id]
   
-  #erb "#{id}"
+  @results = @db.execute 'SELECT * FROM Posts WHERE id = ? ORDER BY Created_date DESC', [@post_id]
+  
   erb :post
 end
