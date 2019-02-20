@@ -18,8 +18,8 @@ configure do
     (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       Created_date DATE,
-      Content TEXT)
-    '
+      Content TEXT
+    )'
 
 end
 
@@ -28,7 +28,9 @@ before do
 end
 
 get '/' do
-  erb "!!Hello! <a href=\"https://github.com/bootstrap-ruby/sinatra-bootstrap\">Original</a> pattern has been modified for <a href=\"http://rubyschool.us/\">Ruby School</a> #{request.path}"
+  @raws = @db.execute 'SELECT * FROM Posts ORDER BY Created_date DESC'
+  
+  erb @raws.to_s
 end
 
 get '/new' do
@@ -36,10 +38,15 @@ get '/new' do
 end
 
 post '/new' do
-  @content = params[ :content]
+  content = params[ :content]
   
-  erb @content
+  if content.length <= 0
+    @error = 'Type post text'
+    return :new
+  end
   
+  @db.execute 'INSERT INTO Posts (Content, Created_date) VALUES( ?,datetime())', [content]
   
-  #erb :new
+  erb "You typed: #{content}"
+  
 end
