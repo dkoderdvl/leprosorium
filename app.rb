@@ -18,6 +18,7 @@ configure do
     (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       Created_date DATE,
+      Author_name TEXT,
       Content TEXT
     )'
 
@@ -25,6 +26,7 @@ configure do
     (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       id_post INTEGER,
+      Author_name TEXT,
       Created_date DATE,
       Comment TEXT
     )'
@@ -46,14 +48,18 @@ get '/new' do
 end
 
 post '/new' do
+  hh_invalid = {
+    :author_name => 'Enter your name',
+    :content => 'Type post text'
+    }
+  @error = hh_invalid.select {|k,v| params[k].strip == '' }.values.join ', '
+  
+  return erb :new if @error.length > 0
+  
   content = params[ :content]
-  
-  if content.length <= 0
-    @error = 'Type post text'
-    return :new
-  end
-  
-  @db.execute 'INSERT INTO Posts (Content, Created_date) VALUES( ?,datetime())', [content]
+  author_name = params[ :author_name ]
+ 
+  @db.execute 'INSERT INTO Posts (Author_name, Content, Created_date) VALUES( ?,?,datetime())', [author_name, content]
   
   redirect to '/'
   
@@ -69,21 +75,24 @@ get '/post/:post_id' do
 end
 
 post '/post/:post_id' do
-  comment = params[ :comment]
+  hh_invalid = {
+    :author_name => 'Enter your name',
+    :comment => 'Type comment text'
+    }
+  @error = hh_invalid.select{|k,v| params[k].strip == ''}.values.join ', '
+  
   @post_id = params[:post_id]
-  
   @results = @db.execute 'SELECT * FROM Posts WHERE id = ? ORDER BY Created_date DESC', [@post_id]
+  @results_comments = @db.execute 'SELECT * FROM Comments WHERE id_post = ? ORDER BY Created_date DESC', [@post_id]
+
+  return erb :post if @error.length > 0
   
-  if comment.length <= 0
-    @error = 'Type commet text'
-    return :post
-  end
+  comment = params[ :comment]
+  author_name = params[:author_name]
   
-  @db.execute 'INSERT INTO Comments (id_post, Comment, Created_date) VALUES( ?,?,datetime())', [@post_id, comment]
+  
+  @db.execute 'INSERT INTO Comments (id_post, Author_name, Comment, Created_date) VALUES( ?,?,?,datetime())', [@post_id, author_name, comment]
   @results_comments = @db.execute 'SELECT * FROM Comments WHERE id_post = ? ORDER BY Created_date DESC', [@post_id]
   
-  #erb comment
   erb :post
-  
 end
-

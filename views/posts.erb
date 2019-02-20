@@ -3,7 +3,7 @@
 <% @results.each do |hh_post| %>
   <div class="shadow p-3 mb-5 bg-white rounded">
     <p><%= "#{hh_post[ 'Content' ]}" %></p>
-    <p class="text-secondary"><%= "id: #{hh_post[ 'id' ]} | Created date: #{hh_post[ 'Created_date' ]}" %></p>
+    <p class="text-secondary"><%= "id: #{hh_post[ 'id' ]} | Created date: #{hh_post[ 'Created_date' ]} | Author: #{hh_post[ 'Author_name' ]}" %></p>
     <br>
     <a href="/post/<%= hh_post[ 'id' ]%>" >Comments</a>
   </div>  

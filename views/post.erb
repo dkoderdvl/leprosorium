@@ -4,28 +4,36 @@
   <h2>Post: <%= "#{hh_post[ 'id' ]}"%></h2>
   <div class="shadow p-3 mb-5 bg-white rounded">
     <p><%= "#{hh_post[ 'Content' ]}" %></p>
-    <p class="text-secondary"><span style="font-size: 75%"><%= "id: #{hh_post[ 'id' ]} | Created date: #{hh_post[ 'Created_date' ]}" %></span></p>
+    <p class="text-secondary"><span style="font-size: 75%"><%= "id: #{hh_post[ 'id' ]} | Created date: #{hh_post[ 'Created_date' ]} | Author: #{hh_post[ 'Author_name' ]}" %></span></p>
   </div>  
 
-  <br>
+  <hr>
   <h4>Comments:</h4>
-  <form action="<%=request.path%>" method="POST" role="form">
-    <div class="form-group">
-      <textarea name="comment" class="form-control" placeholder="Type comment ..." rows="6" required></textarea>
-    </div>
-    <button type="submit" class="btn btn-primary">Add commnet</button>
-  </form>
 
   <% if @results_comments.length > 0 %>
     <br>
     <% @results_comments.each do |hh_comment| %>
-      <div class="shadow p-3 mb-5 bg-white rounded">
+      <div class="p-3 mb-1 bg-white rounded">
         <p><%= "#{hh_comment[ 'Comment' ]}" %></p>
-        <p class="text-secondary"><span style="font-size: 75%"><%= "id: #{hh_comment[ 'id' ]} | Created date: #{hh_comment[ 'Created_date' ]}" %></span></p>
+        <p class="text-secondary"><span style="font-size: 75%"><%= "id: #{hh_comment[ 'id' ]} | Created date: #{hh_comment[ 'Created_date' ]} | Author: #{hh_comment[ 'Author_name' ]}" %></span></p>
       </div>  
+      <hr>
     <% end %>
   <% end %>
 
+  <form action="<%=request.path%>" method="POST" role="form">
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="basic-addon1">Author</span>
+      </div>
+      <input name="author_name" type="text" class="form-control" placeholder="Enter your name..." aria-label="Enter your name..." aria-describedby="basic-addon1" required>
+    </div>
+
+    <div class="form-group">
+      <textarea name="comment" class="form-control" placeholder="Type comment ..." rows="4" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Add commnet</button>
+  </form>
 <% else %>
     <h2><%= "Post #{@post_id} not found" %></h2>
 <% end %>
