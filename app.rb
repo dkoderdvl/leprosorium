@@ -11,6 +11,18 @@ def init_db
   @db.results_as_hash = true
 end
 
+configure do
+  init_db
+
+  @db.execute 'CREATE TABLE IF NOT EXISTS Posts 
+    (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      Created_date DATE,
+      Content TEXT)
+    '
+
+end
+
 before do   
   init_db  
 end
