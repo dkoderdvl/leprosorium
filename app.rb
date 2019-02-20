@@ -28,9 +28,9 @@ before do
 end
 
 get '/' do
-  @raws = @db.execute 'SELECT * FROM Posts ORDER BY Created_date DESC'
+  @results = @db.execute 'SELECT * FROM Posts ORDER BY Created_date DESC'
   
-  erb @raws.to_s
+  erb :posts
 end
 
 get '/new' do
