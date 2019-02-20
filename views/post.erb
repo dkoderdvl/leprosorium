@@ -6,6 +6,26 @@
     <p><%= "#{hh_post[ 'Content' ]}" %></p>
     <p class="text-secondary"><%= "id: #{hh_post[ 'id' ]} | Created date: #{hh_post[ 'Created_date' ]}" %></p>
   </div>  
+
+  <br>
+  <h4>Comments:</h4>
+  <form action="<%=request.path%>" method="POST" role="form">
+    <div class="form-group">
+      <textarea name="comment" class="form-control" placeholder="Type comment ..." rows="6" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Add commnet</button>
+  </form>
+
+  <% if @results_comments.length > 0 %>
+    <br>
+    <% @results_comments.each do |hh_comment| %>
+      <div class="shadow p-3 mb-5 bg-white rounded">
+        <p><%= "#{hh_comment[ 'Comment' ]}" %></p>
+        <p class="text-secondary"><%= "id: #{hh_comment[ 'id' ]} | Created date: #{hh_comment[ 'Created_date' ]}" %></p>
+      </div>  
+    <% end %>
+  <% end %>
+
 <% else %>
     <h2><%= "Post #{@post_id} not found" %></h2>
 <% end %>

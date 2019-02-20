@@ -21,6 +21,14 @@ configure do
       Content TEXT
     )'
 
+  @db.execute 'CREATE TABLE IF NOT EXISTS Comments 
+    (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      id_post INTEGER,
+      Created_date DATE,
+      Comment TEXT
+    )'
+
 end
 
 before do   
@@ -55,6 +63,27 @@ get '/post/:post_id' do
   @post_id = params[:post_id]
   
   @results = @db.execute 'SELECT * FROM Posts WHERE id = ? ORDER BY Created_date DESC', [@post_id]
-  
+  @results_comments = @db.execute 'SELECT * FROM Comments WHERE id_post = ? ORDER BY Created_date DESC', [@post_id]
+ 
   erb :post
 end
+
+post '/post/:post_id' do
+  comment = params[ :comment]
+  @post_id = params[:post_id]
+  
+  @results = @db.execute 'SELECT * FROM Posts WHERE id = ? ORDER BY Created_date DESC', [@post_id]
+  
+  if comment.length <= 0
+    @error = 'Type commet text'
+    return :post
+  end
+  
+  @db.execute 'INSERT INTO Comments (id_post, Comment, Created_date) VALUES( ?,?,datetime())', [@post_id, comment]
+  @results_comments = @db.execute 'SELECT * FROM Comments WHERE id_post = ? ORDER BY Created_date DESC', [@post_id]
+  
+  #erb comment
+  erb :post
+  
+end
+
