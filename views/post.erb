@@ -1,10 +1,11 @@
-<h2>Posts</h2>
 
-<% @results.each do |hh_post| %>
+<% if @results.length > 0 %>
+  <% hh_post = @results[0]%>
+  <h2>Post: <%= "#{hh_post[ 'id' ]}"%></h2>
   <div class="shadow p-3 mb-5 bg-white rounded">
     <p><%= "#{hh_post[ 'Content' ]}" %></p>
     <p class="text-secondary"><%= "id: #{hh_post[ 'id' ]} | Created date: #{hh_post[ 'Created_date' ]}" %></p>
-    <br>
-    <a href="/post/<%= hh_post[ 'id' ]%>" >Comments</a>
   </div>  
+<% else %>
+    <h2><%= "Post #{@id_post} not found" %></h2>
 <% end %>

@@ -47,6 +47,16 @@ post '/new' do
   
   @db.execute 'INSERT INTO Posts (Content, Created_date) VALUES( ?,datetime())', [content]
   
-  erb "You typed: #{content}"
+  redirect to '/'
   
+end
+
+get '/post/*' do
+  @id_post = request.path[6..request.path.length].to_i
+ 
+  @results = @db.execute 'SELECT * FROM Posts WHERE id = ? ORDER BY Created_date DESC', [@id_post]
+ 
+  
+  #erb "#{id}"
+  erb :post
 end
